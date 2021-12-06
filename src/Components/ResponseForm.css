@@ -1,0 +1,22 @@
+.responseForm {
+  width: 60vw;
+  margin: 50px auto;
+  box-shadow: 0 0 5px grey;
+  padding: 30px;
+  border-radius: 10px;
+  border-top: 7px solid purple;
+  border-left: 5px solid blue;
+}
+.responseForm__header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.responseForm p {
+  font-size: 12px;
+}
+.responseForm__questions {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}

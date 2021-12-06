@@ -1,0 +1,35 @@
+.form_card {
+  display: flex;
+  flex-direction: column;
+  width: 12vw;
+  border: 1px solid lightgrey;
+  word-wrap: break-word;
+  padding: 30px;
+  padding-bottom: 10px;
+  background-color: whitesmoke;
+  border-radius: 10px;
+  text-decoration: none !important;
+  color: black ;
+  margin: 10px;
+}
+.formcard__icon_container {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.formcard_icon {
+  font-size: 60px !important;
+  color: blueviolet !important;
+}
+.formcard_details {
+  margin-top: 10px !important;
+}
+.formcard_details > p {
+  font-size: 15px;
+  font-weight: 800;
+}
+.formcard_details span {
+  font-size: 10px;
+  font-weight: 400;
+}

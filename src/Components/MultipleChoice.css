@@ -1,0 +1,13 @@
+.form__questions{
+    padding: 30px;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    width: 60%;
+    margin: 10px;
+    background-color: white;
+}
+.question{
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}

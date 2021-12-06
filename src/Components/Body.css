@@ -1,0 +1,27 @@
+.main__body{
+    margin-top: 50px;
+    flex-grow: 1;
+}
+.main__body h1{
+    font-size: 50px;
+    font-weight: 400;
+}
+
+.main__body p{
+    font-size: 20px;
+}
+.btns{
+    background-color: blue !important;
+    color: white !important;
+    border: none !important;
+    padding: 10px !important;
+}
+.createForm{
+    background-color: blue !important;
+    color: white !important;
+    border: none !important;
+    padding: 10px !important;
+    text-decoration: none;
+    font-size: 17px;
+    border-radius: 10px;
+}

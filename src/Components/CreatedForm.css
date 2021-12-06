@@ -1,0 +1,74 @@
+.createdForm{
+    display: flex;
+    flex-direction: column;
+    width: 70vw;
+    margin: 50px auto;
+    border-radius: 10px;
+    box-shadow: 0 0 20px grey;
+    padding: 30px;
+    border-top: 7px solid purple;
+    border-left: 7px solid blue;
+}
+.createdForm_title{
+    text-align: center;
+    font-size: 40px ;
+    font-weight: 400;
+}
+.createdForm_description{
+    text-align: center;
+    font-size: 20px;
+    font-weight: 400;
+    margin-top: 20px;
+}
+.createdform__questions{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+/* Login with Google */
+.Login_with_Google{
+    display: flex;
+    flex-direction:column;
+    width: 60vw;
+    margin: 200px auto;
+    align-items: center;
+    border: 1px solid lightgray;
+    box-shadow: 0px 0px 10px grey;
+    padding: 20px;
+    background-color: rgb(247, 247, 247);
+}
+.loginBtn{
+    margin-top: 50px !important;
+    text-transform: inherit !important;
+    background-color: blue !important;
+    color: white !important;
+    font-size: 20px !important;
+}
+.Login_with_Google > img{
+    width: 200px;
+    object-fit: contain;
+}
+.submitBtn{
+    text-transform: inherit !important;
+    background-color: purple !important;
+    color: white !important;
+}
+.submitCard{
+    width: 30vw;
+    box-shadow: 0px 0px 10px lightgrey;
+    margin: 100px auto;
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+}
+.submitIcon{
+    font-size: 60px !important;
+    color: green!important;
+    border: 2px dotted green;
+    margin-left: 30px;
+    border-radius: 50%;
+}

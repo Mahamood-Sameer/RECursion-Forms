@@ -1,0 +1,92 @@
+.formcard {
+  width: 70vw;
+  margin: 50px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+  box-shadow: 0px 0px 5px grey;
+  padding: 10px;
+  border-top: 7px solid purple;
+  border-left: 5px solid blue;
+}
+.form__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.form__title {
+  padding: 10px;
+  width: 100%;
+  font-size: 40px;
+  border: none;
+  text-align: center;
+  outline: 0;
+  border-bottom: 1px solid lightgray;
+}
+.form__title:focus {
+  border-bottom: 1px solid blue;
+}
+.form__description {
+  border: none;
+  outline: none;
+  font-size: 20px;
+  margin: 10px;
+  text-align: center;
+  border-bottom: 1px solid lightgray;
+  padding: 10px;
+}
+.form__description:focus {
+  border-bottom: 1px solid blue;
+}
+.adding__part {
+  margin-top: 15px;
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+}
+.opt_btns {
+  text-transform: inherit !important;
+  border: none !important;
+  background-color: blue !important;
+  color: white !important;
+}
+.css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+  max-width: 70vw !important;
+}
+.adding_a_ques {
+  width: 40vw !important;
+}
+.question__type {
+  width: 20% !important;
+  margin-top: 20px !important;
+}
+.Adding__options {
+  margin-top: 20px;
+  border: none;
+  border-bottom: 1px solid lightgray;
+  outline: none;
+  font-size: 14px;
+  padding: 10px;
+}
+.Adding__para {
+  margin-top: 20px;
+  border: none;
+  border-bottom: 1px solid lightgray;
+  outline: none;
+  font-size: 14px;
+  padding: 10px;
+}
+.add_option_btn {
+  text-transform: inherit !important;
+  margin-left: 10px !important;
+  background-color: #0a64be !important;
+  color: white !important;
+}
+.PreviewLink {
+  text-decoration: none;
+  background-color: blue !important;
+  color: white !important;
+  padding: 10px;
+  border-radius: 5px;
+}

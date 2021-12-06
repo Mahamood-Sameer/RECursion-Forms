@@ -1,0 +1,63 @@
+.header{
+    padding: 10px;
+    border-bottom: 1px solid lightgray;
+    box-shadow: 0 0 5px lightgray;
+    position: sticky;
+    top: 0;
+    display: flex;
+    align-items: center;
+    background-color: white;
+    z-index: 100;
+}
+.header__left{
+    flex: 0.2;
+    display: flex;
+    align-items: center;
+}
+.Document-image{
+    margin-left: 10px;
+    font-size: 45px !important;
+    color: blueviolet !important;
+}
+.homeLink{
+    text-decoration: none !important;
+    font-size: 20px;
+    font-weight: 400;
+    color: black;
+}
+.homeLink:hover{
+    text-decoration: underline !important;
+}
+.header__middle{
+    flex: 0.5;
+    display: flex;
+    align-items: center;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+}
+.header__middle input{
+    width: 100%;
+    padding: 10px;
+    outline: 0;
+    border: none;
+    border-radius: 10px;
+    font-size: 17px;
+}
+.header__right{
+    flex: 0.3;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 10px;
+}
+.profile_pic{
+    margin-left: 20px  !important;
+}
+.buttons{
+    text-transform: inherit !important;
+    margin-left: 20px !important;
+    font-size: 16px !important;
+    border: 1px solid lightgrey !important;
+}
+
+

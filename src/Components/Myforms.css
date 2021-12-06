@@ -1,0 +1,11 @@
+.myforms__header{
+    padding: 10px;
+    font-size: 25px;
+    border-bottom: 1px solid lightgrey;
+}
+.myforms__container{
+    margin-top: 30px;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+}
