@@ -221,7 +221,7 @@ function Form({ user }) {
                   to={`/form/${user?.uid}/${formName}`}
                   className="PreviewLink"
                 >
-                  Preview
+                  Confirm
                 </Link>
               </>
             ) : (
