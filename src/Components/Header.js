@@ -16,6 +16,8 @@ import Divider from "@mui/material/Divider";
 import Tooltip from "@mui/material/Tooltip";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
+import PersonIcon from "@mui/icons-material/Person";
+import Email from "@mui/icons-material/Email";
 
 function Header() {
   const [user, setUser] = useState(null);
@@ -86,9 +88,8 @@ function Header() {
                   src={user?.photoURL}
                 />
               </Tooltip>
-              
-                <Settings style={{marginLeft:"20px"}} />
-              
+
+              <Settings style={{ marginLeft: "20px" }} />
             </>
           ) : (
             <Button
@@ -138,16 +139,20 @@ function Header() {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         <MenuItem>
+          <ListItemIcon>
+            <PersonIcon />
+          </ListItemIcon>
           Hii ,{" "}
-          <i style={{ fontSize: "12px", fontWeight: "600", marginLeft: "5px" }}>
+          <span style={{ fontSize: "12px", fontWeight: "600", marginLeft: "5px" }}>
             {" "}
             {user?.displayName}
-          </i>
+          </span>
         </MenuItem>
         <MenuItem>
-          <span
-            style={{ fontSize: "12px", fontWeight: "600", marginLeft: "5px" }}
-          >
+          <ListItemIcon>
+            <Email />
+          </ListItemIcon>
+          <span style={{ fontSize: "12px", fontWeight: "600" }}>
             {" "}
             {user?.email}
           </span>
@@ -170,7 +175,7 @@ function Header() {
           }}
         >
           <ListItemIcon>
-            <Logout fontSize="small" />
+            <Logout />
           </ListItemIcon>
           Logout
         </MenuItem>
