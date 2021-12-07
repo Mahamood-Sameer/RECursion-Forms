@@ -34,6 +34,7 @@
     align-items: center;
     border: 1px solid lightgray;
     border-radius: 10px;
+    margin-left: 50px;
 }
 .header__middle input{
     width: 100%;
@@ -52,6 +53,7 @@
 }
 .profile_pic{
     margin-left: 20px  !important;
+    cursor: pointer !important;
 }
 .buttons{
     text-transform: inherit !important;
