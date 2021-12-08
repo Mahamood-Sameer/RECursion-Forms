@@ -18,6 +18,7 @@ import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import PersonIcon from "@mui/icons-material/Person";
 import Email from "@mui/icons-material/Email";
+import AddIcon from '@mui/icons-material/Add';
 
 function Header() {
   const [user, setUser] = useState(null);
@@ -167,6 +168,17 @@ function Header() {
               <DescriptionIcon />
             </ListItemIcon>
             My Forms
+          </MenuItem>
+        </Link>
+        <Link
+          to="/create-form"
+          style={{ textDecoration: "none", color: "black" }}
+        >
+          <MenuItem>
+            <ListItemIcon>
+              <AddIcon />
+            </ListItemIcon>
+            Create Form
           </MenuItem>
         </Link>
         <MenuItem

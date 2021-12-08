@@ -19,6 +19,16 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 // Database
 import { db } from "../Firebase/firebase";
+// Image Video Audio
+import PhotoCamera from "@mui/icons-material/PhotoCamera";
+import Stack from "@mui/material/Stack";
+import ImageIcon from "@mui/icons-material/Image";
+import VideoFileIcon from "@mui/icons-material/VideoFile";
+import AudioFileIcon from "@mui/icons-material/AudioFile";
+import { styled } from "@mui/material/styles";
+import { IconButton } from "@mui/material";
+import { LinearProgress } from "@mui/material";
+import { storage } from "../Firebase/firebase";
 
 function Form({ user }) {
   //Form heading
@@ -55,95 +65,136 @@ function Form({ user }) {
     setType(event.target.value);
   };
 
+  // For uploading files
+  const Input = styled("input")({
+    display: "none",
+  });
+
+  const [file, setFile] = useState(null);
+  const [progress, setProgress] = useState(null);
+  console.log(file);
+
   //   Add Question
 
   const Add_Question = () => {
-    if (type === "Multiple Choice") {
-      db.collection("Users")
-        .doc(user?.uid)
-        .collection("Forms")
-        .doc(formName)
-        .collection(formName)
-        .add({
-          Title: formName,
-          Description: formDesc,
-          Question: question,
-          type: type,
-          OptionA: optA,
-          OptionB: optB,
-          OptionC: optC,
-          OptionD: optD,
-          Link: `/form/${user?.uid}/${formName}`,
-        });
-      db.collection("Users")
-        .doc(user?.uid)
-        .collection("Forms")
-        .doc(formName)
-        .set({
-          Title: formName,
-          Description: formDesc,
-        });
-      setquestion("");
-      setoptA("");
-      setoptB("");
-      setoptC("");
-      setoptD("");
-      setOpen(false);
-    } else if (type === "Checkboxes") {
-      db.collection("Users")
-        .doc(user?.uid)
-        .collection("Forms")
-        .doc(formName)
-        .collection(formName)
-        .add({
-          Title: formName,
-          Description: formDesc,
-          Question: question,
-          type: type,
-          OptionA: CheckoptA,
-          OptionB: CheckoptB,
-          OptionC: CheckoptC,
-          OptionD: CheckoptD,
-          Link: `/form/${user?.uid}/${formName}`,
-        });
-      db.collection("Users")
-        .doc(user?.uid)
-        .collection("Forms")
-        .doc(formName)
-        .set({
-          Title: formName,
-          Description: formDesc,
-        });
-      setquestion("");
-      setCheckoptA("");
-      setCheckoptB("");
-      setCheckoptC("");
-      setCheckoptD("");
-      setOpen(false);
-    } else {
-      db.collection("Users")
-        .doc(user?.uid)
-        .collection("Forms")
-        .doc(formName)
-        .collection(formName)
-        .add({
-          Title: formName,
-          Description: formDesc,
-          Question: question,
-          type: type,
-          Link: `/form/${user?.uid}/${formName}`,
-        });
-      db.collection("Users")
-        .doc(user?.uid)
-        .collection("Forms")
-        .doc(formName)
-        .set({
-          Title: formName,
-          Description: formDesc,
-        });
-      setquestion("");
-      setOpen(false);
-    }
+    const fileref = storage
+      .ref(`files/${user?.email}_${file?.File.name}`)
+      .put(file.File);
+    fileref.on(
+      "state_changed",
+      (snapshot) => {
+        // Progress....
+        const progress_bar = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        setProgress(progress_bar);
+        console.log(progress);
+        setOpen(false);
+      },
+      (error) => {
+        alert(error.message);
+      },
+      () => {
+        storage
+          .ref("files")
+          .child(`${user?.email}_${file?.File.name}`)
+          .getDownloadURL()
+          .then((url) => {
+            if (type === "Multiple Choice") {
+              db.collection("Users")
+                .doc(user?.uid)
+                .collection("Forms")
+                .doc(formName)
+                .collection(formName)
+                .add({
+                  Title: formName,
+                  Description: formDesc,
+                  Question: question,
+                  type: type,
+                  OptionA: optA,
+                  OptionB: optB,
+                  OptionC: optC,
+                  OptionD: optD,
+                  Link: `/form/${user?.uid}/${formName}`,
+                  FileType: file.type,
+                  FileURL: url,
+                });
+              db.collection("Users")
+                .doc(user?.uid)
+                .collection("Forms")
+                .doc(formName)
+                .set({
+                  Title: formName,
+                  Description: formDesc,
+                });
+              setquestion("");
+              setoptA("");
+              setoptB("");
+              setoptC("");
+              setoptD("");
+              setFile(null);
+            } else if (type === "Checkboxes") {
+              db.collection("Users")
+                .doc(user?.uid)
+                .collection("Forms")
+                .doc(formName)
+                .collection(formName)
+                .add({
+                  Title: formName,
+                  Description: formDesc,
+                  Question: question,
+                  type: type,
+                  OptionA: CheckoptA,
+                  OptionB: CheckoptB,
+                  OptionC: CheckoptC,
+                  OptionD: CheckoptD,
+                  Link: `/form/${user?.uid}/${formName}`,
+                  FileType: file.type,
+                  FileURL: url,
+                });
+              db.collection("Users")
+                .doc(user?.uid)
+                .collection("Forms")
+                .doc(formName)
+                .set({
+                  Title: formName,
+                  Description: formDesc,
+                });
+              setquestion("");
+              setCheckoptA("");
+              setCheckoptB("");
+              setCheckoptC("");
+              setCheckoptD("");
+              setFile(null);
+            } else {
+              db.collection("Users")
+                .doc(user?.uid)
+                .collection("Forms")
+                .doc(formName)
+                .collection(formName)
+                .add({
+                  Title: formName,
+                  Description: formDesc,
+                  Question: question,
+                  type: type,
+                  Link: `/form/${user?.uid}/${formName}`,
+                  FileType: file.type,
+                  FileURL: url,
+                });
+              db.collection("Users")
+                .doc(user?.uid)
+                .collection("Forms")
+                .doc(formName)
+                .set({
+                  Title: formName,
+                  Description: formDesc,
+                });
+              setquestion("");
+              setFile(null);
+            }
+          });
+      }
+    );
   };
 
   //FORM
@@ -212,7 +263,7 @@ function Form({ user }) {
           })}
           {/* Adding part */}
           <div className="adding__part">
-            {formName ? (
+            {formName && formDesc ? (
               <>
                 <Button className="opt_btns" onClick={handleClickOpen}>
                   Add a Question
@@ -320,6 +371,76 @@ function Form({ user }) {
                   Checkboxes
                 </MenuItem>
               </Select>
+              {/* Files upload */}
+              {!file ? (
+                <>
+                  <Stack direction="row" alignItems="center" marginTop="10px">
+                    <label htmlFor="icon-button-file-Image">
+                      <Input
+                        accept="image/*"
+                        id="icon-button-file-Image"
+                        type="file"
+                        onChange={(e) => {
+                          if (e.target.files[0]) {
+                            setFile({
+                              type: "Image",
+                              File: e.target.files[0],
+                            });
+                          }
+                        }}
+                      />
+                      <IconButton  component="span">
+                        <ImageIcon />
+                      </IconButton>
+                    </label>
+                    <label htmlFor="icon-button-file-Video">
+                      <Input
+                        accept="video/*"
+                        id="icon-button-file-Video"
+                        type="file"
+                        onChange={(e) => {
+                          if (e.target.files[0]) {
+                            setFile({
+                              type: "Video",
+                              File: e.target.files[0],
+                            });
+                          }
+                        }}
+                      />
+                      <IconButton  component="span">
+                        <VideoFileIcon />
+                      </IconButton>
+                    </label>
+                    <label htmlFor="icon-button-file-Audio">
+                      <Input
+                        accept="audio/*"
+                        id="icon-button-file-Audio"
+                        type="file"
+                        onChange={(e) => {
+                          if (e.target.files[0]) {
+                            setFile({
+                              type: "Audio",
+                              File: e.target.files[0],
+                            });
+                          }
+                        }}
+                      />
+                      <IconButton  component="span">
+                        <AudioFileIcon />
+                      </IconButton>
+                    </label>
+                  </Stack>
+                </>
+              ) : (
+                <>
+                  <LinearProgress
+                    variant="determinate"
+                    value={100}
+                    style={{ marginTop: "20px" }}
+                  />{" "}
+                  {file?.File.name}
+                </>
+              )}
             </FormControl>
           </Box>
           {type === "Multiple Choice" ? (

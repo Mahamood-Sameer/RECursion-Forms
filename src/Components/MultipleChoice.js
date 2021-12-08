@@ -6,7 +6,14 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import { db } from "../Firebase/firebase";
 
-function MultipleChoice({ question, Disable, Id, formName, user, ChoosenAnswer }) {
+function MultipleChoice({
+  question,
+  Disable,
+  Id,
+  formName,
+  user,
+  ChoosenAnswer,
+}) {
   const [Answer, setAnswer] = useState(null);
   useEffect(() => {
     if (!Disable) {
@@ -25,6 +32,8 @@ function MultipleChoice({ question, Disable, Id, formName, user, ChoosenAnswer }
           OptionB: question?.OptionB,
           OptionC: question?.OptionC,
           OptionD: question?.OptionD,
+          FileType: question.FileType,
+          FileURL: question.FileURL,
           ResponseName: user?.user.displayName,
           ResponseId: user?.user.uid,
         });
@@ -44,6 +53,36 @@ function MultipleChoice({ question, Disable, Id, formName, user, ChoosenAnswer }
     <div className="form__questions">
       <FormControl component="fieldset">
         <strong className="question">{question?.Question}</strong>
+        {question?.FileType == "Image" ? (
+          <>
+            <img
+              src={question?.FileURL}
+              style={{ width: "380px", objectFit: "contain" }}
+            />
+          </>
+        ) : (
+          <>
+            {question?.FileType == "Video" ? (
+              <>
+                <video width="400" height="240" controls>
+                  <source src={question?.FileURL} type="video/mp4" />
+                </video>
+              </>
+            ) : (
+              <>
+                {question?.FileType == "Audio" ? (
+                  <>
+                    <audio controls>
+                      <source src={question?.FileURL} type="audio/mpeg" />
+                    </audio>
+                  </>
+                ) : (
+                  <></>
+                )}
+              </>
+            )}
+          </>
+        )}
         <RadioGroup>
           <FormControlLabel
             value={question?.OptionA}

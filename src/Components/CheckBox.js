@@ -27,6 +27,8 @@ function CheckBox({ question, Disable, Id, formName, user, ChoosenAnswer }) {
           OptionD: question?.OptionD,
           ResponseName: user?.user.displayName,
           ResponseId: user?.user.uid,
+          FileType: question.FileType,
+          FileURL: question.FileURL,
         });
 
       db.collection("Response")
@@ -63,6 +65,8 @@ function CheckBox({ question, Disable, Id, formName, user, ChoosenAnswer }) {
             OptionB: question?.OptionB,
             OptionC: question?.OptionC,
             OptionD: question?.OptionD,
+            FileType: question.FileType,
+            FileURL: question.FileURL,
             ResponseName: user?.user.displayName,
             ResponseId: user?.user.uid,
           });
@@ -83,6 +87,36 @@ function CheckBox({ question, Disable, Id, formName, user, ChoosenAnswer }) {
     <div className="form__questions">
       <FormControl component="fieldset">
         <strong className="question">{question?.Question}</strong>
+        {question?.FileType == "Image" ? (
+          <>
+            <img
+              src={question?.FileURL}
+              style={{ width: "380px", objectFit: "contain" }}
+            />
+          </>
+        ) : (
+          <>
+            {question?.FileType == "Video" ? (
+              <>
+                <video width="400" height="240" controls>
+                  <source src={question?.FileURL} type="video/mp4" />
+                </video>
+              </>
+            ) : (
+              <>
+                {question?.FileType == "Audio" ? (
+                  <>
+                    <audio controls>
+                      <source src={question?.FileURL} type="audio/mpeg" />
+                    </audio>
+                  </>
+                ) : (
+                  <></>
+                )}
+              </>
+            )}
+          </>
+        )}
         <FormGroup>
           <FormControlLabel
             control={<Checkbox />}

@@ -90,3 +90,11 @@
   padding: 10px;
   border-radius: 5px;
 }
+.inset__Im__Vid__Aud__btns {
+  display: inline;
+  align-items: center;
+  padding: 20px;
+}
+.icon_btns__upload {
+  cursor: pointer !important;
+}
