@@ -84,50 +84,70 @@ function MultipleChoice({
           </>
         )}
         <RadioGroup>
-          <FormControlLabel
-            value={question?.OptionA}
-            control={<Radio />}
-            label={question?.OptionA}
-            disabled={Disable}
-            onClick={() => {
-              if (!Disable) {
-                setAnswer(question?.OptionA);
-              }
-            }}
-          />
-          <FormControlLabel
-            value={question?.OptionB}
-            control={<Radio />}
-            label={question?.OptionB}
-            disabled={Disable}
-            onClick={() => {
-              if (!Disable) {
-                setAnswer(question?.OptionB);
-              }
-            }}
-          />
-          <FormControlLabel
-            value={question?.OptionC}
-            control={<Radio />}
-            label={question?.OptionC}
-            disabled={Disable}
-            onClick={() => {
-              if (!Disable) {
-                setAnswer(question?.OptionC);
-              }
-            }}
-          />
-          <FormControlLabel
-            value={question?.OptionD}
-            control={<Radio />}
-            label={question?.OptionD}
-            disabled={Disable}
-            onClick={() => {
-              if (!Disable) {
-                setAnswer(question?.OptionD);
-              }
-            }}
-          />
+          {question?.OptionA ? (
+            <>
+              <FormControlLabel
+                value={question?.OptionA}
+                control={<Radio />}
+                label={question?.OptionA}
+                disabled={Disable}
+                onClick={() => {
+                  if (!Disable) {
+                    setAnswer(question?.OptionA);
+                  }
+                }}
+              />
+            </>
+          ) : (
+            <></>
+          )}
+          {question?.OptionB ? (
+            <>
+              <FormControlLabel
+                value={question?.OptionB}
+                control={<Radio />}
+                label={question?.OptionB}
+                disabled={Disable}
+                onClick={() => {
+                  if (!Disable) {
+                    setAnswer(question?.OptionB);
+                  }
+                }}
+              />
+            </>
+          ) : (
+            <></>
+          )}
+          {question?.OptionC ? (
+            <FormControlLabel
+              value={question?.OptionC}
+              control={<Radio />}
+              label={question?.OptionC}
+              disabled={Disable}
+              onClick={() => {
+                if (!Disable) {
+                  setAnswer(question?.OptionC);
+                }
+              }}
+            />
+          ) : (
+            <></>
+          )}
+          {question?.OptionD ? (
+            <FormControlLabel
+              value={question?.OptionD}
+              control={<Radio />}
+              label={question?.OptionD}
+              disabled={Disable}
+              onClick={() => {
+                if (!Disable) {
+                  setAnswer(question?.OptionD);
+                }
+              }}
+            />
+          ) : (
+            <></>
+          )}
         </RadioGroup>
       </FormControl>
       {ChoosenAnswer ? (

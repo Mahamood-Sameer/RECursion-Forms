@@ -117,43 +117,60 @@ function CheckBox({ question, Disable, Id, formName, user, ChoosenAnswer }) {
             )}
           </>
         )}
+
         <FormGroup>
-          <FormControlLabel
-            control={<Checkbox />}
-            label={question?.OptionA}
-            value={question?.OptionA}
-            disabled={Disable}
-            onClick={() => {
-              AddOptions(question?.OptionA);
-            }}
-          />
-          <FormControlLabel
-            control={<Checkbox />}
-            label={question?.OptionB}
-            value={question?.OptionB}
-            disabled={Disable}
-            onClick={() => {
-              AddOptions(question?.OptionB);
-            }}
-          />
-          <FormControlLabel
-            control={<Checkbox />}
-            label={question?.OptionC}
-            value={question?.OptionC}
-            disabled={Disable}
-            onClick={() => {
-              AddOptions(question?.OptionC);
-            }}
-          />
-          <FormControlLabel
-            control={<Checkbox />}
-            label={question?.OptionD}
-            value={question?.OptionD}
-            disabled={Disable}
-            onClick={() => {
-              AddOptions(question?.OptionD);
-            }}
-          />
+          {question?.OptionA ? (
+            <FormControlLabel
+              control={<Checkbox />}
+              label={question?.OptionA}
+              value={question?.OptionA}
+              disabled={Disable}
+              onClick={() => {
+                AddOptions(question?.OptionA);
+              }}
+            />
+          ) : (
+            <></>
+          )}
+          {question?.OptionB ? (
+            <FormControlLabel
+              control={<Checkbox />}
+              label={question?.OptionB}
+              value={question?.OptionB}
+              disabled={Disable}
+              onClick={() => {
+                AddOptions(question?.OptionB);
+              }}
+            />
+          ) : (
+            <></>
+          )}
+          {question?.OptionC ? (
+            <FormControlLabel
+              control={<Checkbox />}
+              label={question?.OptionC}
+              value={question?.OptionC}
+              disabled={Disable}
+              onClick={() => {
+                AddOptions(question?.OptionC);
+              }}
+            />
+          ) : (
+            <></>
+          )}
+          {question?.OptionD ? (
+            <FormControlLabel
+              control={<Checkbox />}
+              label={question?.OptionD}
+              value={question?.OptionD}
+              disabled={Disable}
+              onClick={() => {
+                AddOptions(question?.OptionD);
+              }}
+            />
+          ) : (
+            <></>
+          )}
         </FormGroup>
       </FormControl>
 
@@ -163,7 +180,7 @@ function CheckBox({ question, Disable, Id, formName, user, ChoosenAnswer }) {
           <br />
           Choosen Options :{" "}
           {ChoosenAnswer.map((opt) => (
-            <span>{opt} , </span>
+            <span>'{opt}' </span>
           ))}
         </>
       ) : (

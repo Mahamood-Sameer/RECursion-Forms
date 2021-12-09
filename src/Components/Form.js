@@ -29,6 +29,9 @@ import { styled } from "@mui/material/styles";
 import { IconButton } from "@mui/material";
 import { LinearProgress } from "@mui/material";
 import { storage } from "../Firebase/firebase";
+// BackDrop
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 
 function Form({ user }) {
   //Form heading
@@ -90,6 +93,11 @@ function Form({ user }) {
         setProgress(progress_bar);
         console.log(progress);
         setOpen(false);
+        if (progress_bar == 100) {
+          setOpenBackdrop(false);
+        } else {
+          setOpenBackdrop(true);
+        }
       },
       (error) => {
         alert(error.message);
@@ -215,6 +223,9 @@ function Form({ user }) {
       console.log("Waiting");
     }
   }, [formName]);
+
+  // Backdrop
+  const [openBackdrop, setOpenBackdrop] = useState(false);
 
   return (
     <>
@@ -389,7 +400,7 @@ function Form({ user }) {
                           }
                         }}
                       />
-                      <IconButton  component="span">
+                      <IconButton component="span">
                         <ImageIcon />
                       </IconButton>
                     </label>
@@ -407,7 +418,7 @@ function Form({ user }) {
                           }
                         }}
                       />
-                      <IconButton  component="span">
+                      <IconButton component="span">
                         <VideoFileIcon />
                       </IconButton>
                     </label>
@@ -425,7 +436,7 @@ function Form({ user }) {
                           }
                         }}
                       />
-                      <IconButton  component="span">
+                      <IconButton component="span">
                         <AudioFileIcon />
                       </IconButton>
                     </label>
@@ -548,6 +559,16 @@ function Form({ user }) {
           <Button onClick={handleClose}>Cancel</Button>
         </DialogActions>
       </Dialog>
+
+      {/* BackDrop */}
+      <div>
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={openBackdrop}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      </div>
     </>
   );
 }

@@ -9,7 +9,7 @@ function Responses() {
   let { Id, name } = useParams();
   console.log(Id, name);
 
-  const [responses, setResponses] = useState(null);
+  const [responses, setResponses] = useState([]);
   useEffect(() => {
     db.collection("Response")
       .doc(Id)
@@ -30,7 +30,7 @@ function Responses() {
         <span>Responses</span>
       </div>
       <div className="responses__body">
-        {responses ? (
+        {(responses.length !==0)? (
           <>
           <h3 style={{marginLeft:"10px"}}>These are the names of the people who had submitted the form</h3>
           <br />
