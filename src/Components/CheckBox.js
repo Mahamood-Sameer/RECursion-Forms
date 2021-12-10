@@ -5,13 +5,24 @@ import FormGroup from "@mui/material/FormControl";
 import FormControl from "@mui/material/FormControl";
 import Checkbox from "@mui/material/Checkbox";
 import { db } from "../Firebase/firebase";
+import EditIcon from "@mui/icons-material/Edit";
+import { IconButton } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 
-function CheckBox({ question, Disable, Id, formName, user, ChoosenAnswer }) {
+function CheckBox({
+  question,
+  Disable,
+  Id,
+  formName,
+  user,
+  ChoosenAnswer,
+  Editable,
+}) {
   const [Answer, setAnswer] = useState([]);
   useEffect(() => {
     if (!Disable) {
-      console.log(Answer);
-      db.collection("Response")
+      if(question.FileType){
+        db.collection("Response")
         .doc(Id)
         .collection(formName)
         .doc(user.user.uid)
@@ -30,6 +41,26 @@ function CheckBox({ question, Disable, Id, formName, user, ChoosenAnswer }) {
           FileType: question.FileType,
           FileURL: question.FileURL,
         });
+
+      }else{
+        db.collection("Response")
+        .doc(Id)
+        .collection(formName)
+        .doc(user.user.uid)
+        .collection(formName)
+        .doc(question.Question)
+        .set({
+          Question: question.Question,
+          Answer: Answer,
+          Type: question.type,
+          OptionA: question?.OptionA,
+          OptionB: question?.OptionB,
+          OptionC: question?.OptionC,
+          OptionD: question?.OptionD,
+          ResponseName: user?.user.displayName,
+          ResponseId: user?.user.uid,
+        });
+      }
 
       db.collection("Response")
         .doc(Id)
@@ -51,7 +82,8 @@ function CheckBox({ question, Disable, Id, formName, user, ChoosenAnswer }) {
         console.log("Removing ", option);
         Answer.splice(INDEX, 1);
         setAnswer(Answer);
-        db.collection("Response")
+        if(question.FileType){
+          db.collection("Response")
           .doc(Id)
           .collection(formName)
           .doc(user.user.uid)
@@ -70,6 +102,25 @@ function CheckBox({ question, Disable, Id, formName, user, ChoosenAnswer }) {
             ResponseName: user?.user.displayName,
             ResponseId: user?.user.uid,
           });
+        }else{
+          db.collection("Response")
+          .doc(Id)
+          .collection(formName)
+          .doc(user.user.uid)
+          .collection(formName)
+          .doc(question.Question)
+          .set({
+            Question: question.Question,
+            Answer: Answer,
+            Type: question.type,
+            OptionA: question?.OptionA,
+            OptionB: question?.OptionB,
+            OptionC: question?.OptionC,
+            OptionD: question?.OptionD,
+            ResponseName: user?.user.displayName,
+            ResponseId: user?.user.uid,
+          });
+        }
 
         db.collection("Response")
           .doc(Id)
@@ -85,6 +136,26 @@ function CheckBox({ question, Disable, Id, formName, user, ChoosenAnswer }) {
 
   return (
     <div className="form__questions">
+      {Editable ? (
+        <>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center",
+            }}
+          >
+            <IconButton>
+              <EditIcon />
+            </IconButton>
+            <IconButton>
+              <DeleteIcon />
+            </IconButton>
+          </div>
+        </>
+      ) : (
+        <></>
+      )}
       <FormControl component="fieldset">
         <strong className="question">{question?.Question}</strong>
         {question?.FileType == "Image" ? (

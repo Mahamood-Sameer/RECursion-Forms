@@ -8,4 +8,16 @@
     padding: 10px;
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
+}
+.add_card{
+    margin-right: 30px;
+    text-decoration: none !important;
+    color: green !important;
+    padding: 10px !important;
+    border: 2px dotted green !important;
+    border-radius: 50%;
+}
+.addIcon{
+    font-size: 40px !important;
 }

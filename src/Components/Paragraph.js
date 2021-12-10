@@ -1,13 +1,41 @@
 import React, { useEffect, useState } from "react";
 import "./Paragraph.css";
 import { db } from "../Firebase/firebase";
+// Question change Dialoue
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import EditIcon from "@mui/icons-material/Edit";
+import { IconButton } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 
-function Paragraph({ question, Disable, Id, formName, user, ChoosenAnswer }) {
+function Paragraph({
+  question,
+  Disable,
+  Id,
+  formName,
+  user,
+  ChoosenAnswer,
+  Editable,
+  quesId
+}) {
   const [answer, setAnswer] = useState("");
+
+  // Open Dialouge
+  const [open, setOpen] = React.useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     if (!Disable) {
-      db.collection("Response")
+      if(question.FileType){
+        db.collection("Response")
         .doc(Id)
         .collection(formName)
         .doc(user.user.uid)
@@ -18,8 +46,22 @@ function Paragraph({ question, Disable, Id, formName, user, ChoosenAnswer }) {
           Answer: answer,
           Type: question.type,
           FileType: question.FileType,
-          FileURL: question.FileURL
+          FileURL: question.FileURL,
         });
+      }else{
+        db.collection("Response")
+        .doc(Id)
+        .collection(formName)
+        .doc(user.user.uid)
+        .collection(formName)
+        .doc(question.Question)
+        .set({
+          Question: question.Question,
+          Answer: answer,
+          Type: question.type,
+        });
+      }
+      
       db.collection("Response")
         .doc(Id)
         .collection(formName)
@@ -31,9 +73,34 @@ function Paragraph({ question, Disable, Id, formName, user, ChoosenAnswer }) {
     }
   }, [answer]);
 
+  const DeleteQuestion = ()=>{
+    console.log(quesId)
+  }
+
   return (
     <>
       <div className="paragraph_questions">
+        {Editable ? (
+          <>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "center",
+              }}
+            >
+              <IconButton>
+                <EditIcon />
+              </IconButton>
+              <IconButton>
+                <DeleteIcon onClick={setOpen(true)} />
+              </IconButton>
+            </div>
+          </>
+        ) : (
+          <></>
+        )}
+
         <strong className="question">{question?.Question}</strong>
         {question?.FileType == "Image" ? (
           <>
@@ -87,6 +154,20 @@ function Paragraph({ question, Disable, Id, formName, user, ChoosenAnswer }) {
           <></>
         )}
       </div>
+
+      {/* Dialouge */}
+      <Dialog open={open}>
+        <DialogTitle>Deletion</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Do you want to delete the question ?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Ok</Button>
+          <Button onClick={handleClose}>Cancel</Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }

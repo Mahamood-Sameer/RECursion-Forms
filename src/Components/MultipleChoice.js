@@ -5,6 +5,9 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import { db } from "../Firebase/firebase";
+import EditIcon from "@mui/icons-material/Edit";
+import { IconButton } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 function MultipleChoice({
   question,
@@ -13,12 +16,13 @@ function MultipleChoice({
   formName,
   user,
   ChoosenAnswer,
+  Editable
 }) {
   const [Answer, setAnswer] = useState(null);
   useEffect(() => {
     if (!Disable) {
-      console.log(Answer);
-      db.collection("Response")
+      if(question.FileType){
+        db.collection("Response")
         .doc(Id)
         .collection(formName)
         .doc(user.user.uid)
@@ -37,6 +41,26 @@ function MultipleChoice({
           ResponseName: user?.user.displayName,
           ResponseId: user?.user.uid,
         });
+      }
+      else{
+        db.collection("Response")
+        .doc(Id)
+        .collection(formName)
+        .doc(user.user.uid)
+        .collection(formName)
+        .doc(question.Question)
+        .set({
+          Question: question.Question,
+          Answer: Answer,
+          Type: question.type,
+          OptionA: question?.OptionA,
+          OptionB: question?.OptionB,
+          OptionC: question?.OptionC,
+          OptionD: question?.OptionD,
+          ResponseName: user?.user.displayName,
+          ResponseId: user?.user.uid,
+      })
+    }
 
       db.collection("Response")
         .doc(Id)
@@ -51,6 +75,26 @@ function MultipleChoice({
 
   return (
     <div className="form__questions">
+      {Editable ? (
+          <>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "center",
+              }}
+            >
+              <IconButton>
+                <EditIcon />
+              </IconButton>
+              <IconButton>
+                <DeleteIcon />
+              </IconButton>
+            </div>
+          </>
+        ) : (
+          <></>
+        )}
       <FormControl component="fieldset">
         <strong className="question">{question?.Question}</strong>
         {question?.FileType == "Image" ? (

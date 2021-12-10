@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./Myforms.css";
 import MyFormCards from "./MyFormCards";
 import { db } from "../Firebase/firebase";
+import { Link } from "react-router-dom";
+import AddIcon from "@mui/icons-material/Add";
 
 function Myforms({ user }) {
   const [myforms, setMyforms] = useState(null);
@@ -12,7 +14,7 @@ function Myforms({ user }) {
       .onSnapshot((SnapShot) => {
         setMyforms(SnapShot.docs.map((doc) => doc.data()));
       });
-  },[user]);
+  }, [user]);
   console.log(myforms);
   return (
     <div className="myforms">
@@ -20,7 +22,10 @@ function Myforms({ user }) {
         <span>My Forms</span>
       </div>
       <div className="myforms__container">
-        {myforms ? (
+        <Link to="/create-form" className="add_card">
+          <AddIcon className="addIcon" />
+        </Link>
+        {(myforms?.length!==0) ? (
           <>
             {myforms?.map((form) => (
               <MyFormCards title={form?.Title} user={user} />
@@ -28,9 +33,7 @@ function Myforms({ user }) {
           </>
         ) : (
           <>
-            <center>
-              No forms created yet.....
-            </center>
+            <center>No forms created yet.....</center>
           </>
         )}
       </div>

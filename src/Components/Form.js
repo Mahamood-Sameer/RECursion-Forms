@@ -80,129 +80,218 @@ function Form({ user }) {
   //   Add Question
 
   const Add_Question = () => {
-    const fileref = storage
-      .ref(`files/${user?.email}_${file?.File.name}`)
-      .put(file.File);
-    fileref.on(
-      "state_changed",
-      (snapshot) => {
-        // Progress....
-        const progress_bar = Math.round(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        );
-        setProgress(progress_bar);
-        console.log(progress);
-        setOpen(false);
-        if (progress_bar == 100) {
-          setOpenBackdrop(false);
-        } else {
-          setOpenBackdrop(true);
+    if (file) {
+      const fileref = storage
+        .ref(`files/${user?.email}_${file?.File.name}`)
+        .put(file.File);
+      fileref.on(
+        "state_changed",
+        (snapshot) => {
+          // Progress....
+          const progress_bar = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          setProgress(progress_bar);
+          console.log(progress);
+          setOpen(false);
+          if (progress_bar == 100) {
+            setOpenBackdrop(false);
+          } else {
+            setOpenBackdrop(true);
+          }
+        },
+        (error) => {
+          alert(error.message);
+        },
+        () => {
+          storage
+            .ref("files")
+            .child(`${user?.email}_${file?.File.name}`)
+            .getDownloadURL()
+            .then((url) => {
+              if (type === "Multiple Choice") {
+                db.collection("Users")
+                  .doc(user?.uid)
+                  .collection("Forms")
+                  .doc(formName)
+                  .collection(formName)
+                  .add({
+                    Title: formName,
+                    Description: formDesc,
+                    Question: question,
+                    type: type,
+                    OptionA: optA,
+                    OptionB: optB,
+                    OptionC: optC,
+                    OptionD: optD,
+                    Link: `/form/${user?.uid}/${formName}`,
+                    FileType: file.type,
+                    FileURL: url,
+                  });
+                db.collection("Users")
+                  .doc(user?.uid)
+                  .collection("Forms")
+                  .doc(formName)
+                  .set({
+                    Title: formName,
+                    Description: formDesc,
+                  });
+                setquestion("");
+                setoptA("");
+                setoptB("");
+                setoptC("");
+                setoptD("");
+                setFile(null);
+              } else if (type === "Checkboxes") {
+                db.collection("Users")
+                  .doc(user?.uid)
+                  .collection("Forms")
+                  .doc(formName)
+                  .collection(formName)
+                  .add({
+                    Title: formName,
+                    Description: formDesc,
+                    Question: question,
+                    type: type,
+                    OptionA: CheckoptA,
+                    OptionB: CheckoptB,
+                    OptionC: CheckoptC,
+                    OptionD: CheckoptD,
+                    Link: `/form/${user?.uid}/${formName}`,
+                    FileType: file.type,
+                    FileURL: url,
+                  });
+                db.collection("Users")
+                  .doc(user?.uid)
+                  .collection("Forms")
+                  .doc(formName)
+                  .set({
+                    Title: formName,
+                    Description: formDesc,
+                  });
+                setquestion("");
+                setCheckoptA("");
+                setCheckoptB("");
+                setCheckoptC("");
+                setCheckoptD("");
+                setFile(null);
+              } else {
+                db.collection("Users")
+                  .doc(user?.uid)
+                  .collection("Forms")
+                  .doc(formName)
+                  .collection(formName)
+                  .add({
+                    Title: formName,
+                    Description: formDesc,
+                    Question: question,
+                    type: type,
+                    Link: `/form/${user?.uid}/${formName}`,
+                    FileType: file.type,
+                    FileURL: url,
+                  });
+                db.collection("Users")
+                  .doc(user?.uid)
+                  .collection("Forms")
+                  .doc(formName)
+                  .set({
+                    Title: formName,
+                    Description: formDesc,
+                  });
+                setquestion("");
+                setFile(null);
+              }
+            });
         }
-      },
-      (error) => {
-        alert(error.message);
-      },
-      () => {
-        storage
-          .ref("files")
-          .child(`${user?.email}_${file?.File.name}`)
-          .getDownloadURL()
-          .then((url) => {
-            if (type === "Multiple Choice") {
-              db.collection("Users")
-                .doc(user?.uid)
-                .collection("Forms")
-                .doc(formName)
-                .collection(formName)
-                .add({
-                  Title: formName,
-                  Description: formDesc,
-                  Question: question,
-                  type: type,
-                  OptionA: optA,
-                  OptionB: optB,
-                  OptionC: optC,
-                  OptionD: optD,
-                  Link: `/form/${user?.uid}/${formName}`,
-                  FileType: file.type,
-                  FileURL: url,
-                });
-              db.collection("Users")
-                .doc(user?.uid)
-                .collection("Forms")
-                .doc(formName)
-                .set({
-                  Title: formName,
-                  Description: formDesc,
-                });
-              setquestion("");
-              setoptA("");
-              setoptB("");
-              setoptC("");
-              setoptD("");
-              setFile(null);
-            } else if (type === "Checkboxes") {
-              db.collection("Users")
-                .doc(user?.uid)
-                .collection("Forms")
-                .doc(formName)
-                .collection(formName)
-                .add({
-                  Title: formName,
-                  Description: formDesc,
-                  Question: question,
-                  type: type,
-                  OptionA: CheckoptA,
-                  OptionB: CheckoptB,
-                  OptionC: CheckoptC,
-                  OptionD: CheckoptD,
-                  Link: `/form/${user?.uid}/${formName}`,
-                  FileType: file.type,
-                  FileURL: url,
-                });
-              db.collection("Users")
-                .doc(user?.uid)
-                .collection("Forms")
-                .doc(formName)
-                .set({
-                  Title: formName,
-                  Description: formDesc,
-                });
-              setquestion("");
-              setCheckoptA("");
-              setCheckoptB("");
-              setCheckoptC("");
-              setCheckoptD("");
-              setFile(null);
-            } else {
-              db.collection("Users")
-                .doc(user?.uid)
-                .collection("Forms")
-                .doc(formName)
-                .collection(formName)
-                .add({
-                  Title: formName,
-                  Description: formDesc,
-                  Question: question,
-                  type: type,
-                  Link: `/form/${user?.uid}/${formName}`,
-                  FileType: file.type,
-                  FileURL: url,
-                });
-              db.collection("Users")
-                .doc(user?.uid)
-                .collection("Forms")
-                .doc(formName)
-                .set({
-                  Title: formName,
-                  Description: formDesc,
-                });
-              setquestion("");
-              setFile(null);
-            }
+      );
+    } else {
+      if (type === "Multiple Choice") {
+        db.collection("Users")
+          .doc(user?.uid)
+          .collection("Forms")
+          .doc(formName)
+          .collection(formName)
+          .add({
+            Title: formName,
+            Description: formDesc,
+            Question: question,
+            type: type,
+            OptionA: optA,
+            OptionB: optB,
+            OptionC: optC,
+            OptionD: optD,
+            Link: `/form/${user?.uid}/${formName}`,
           });
+        db.collection("Users")
+          .doc(user?.uid)
+          .collection("Forms")
+          .doc(formName)
+          .set({
+            Title: formName,
+            Description: formDesc,
+          });
+        setquestion("");
+        setoptA("");
+        setoptB("");
+        setoptC("");
+        setoptD("");
+        setOpen(false);
+      } else if (type === "Checkboxes") {
+        db.collection("Users")
+          .doc(user?.uid)
+          .collection("Forms")
+          .doc(formName)
+          .collection(formName)
+          .add({
+            Title: formName,
+            Description: formDesc,
+            Question: question,
+            type: type,
+            OptionA: CheckoptA,
+            OptionB: CheckoptB,
+            OptionC: CheckoptC,
+            OptionD: CheckoptD,
+            Link: `/form/${user?.uid}/${formName}`,
+          });
+        db.collection("Users")
+          .doc(user?.uid)
+          .collection("Forms")
+          .doc(formName)
+          .set({
+            Title: formName,
+            Description: formDesc,
+          });
+        setquestion("");
+        setCheckoptA("");
+        setCheckoptB("");
+        setCheckoptC("");
+        setCheckoptD("");
+        setOpen(false);
+      } else {
+        db.collection("Users")
+          .doc(user?.uid)
+          .collection("Forms")
+          .doc(formName)
+          .collection(formName)
+          .add({
+            Title: formName,
+            Description: formDesc,
+            Question: question,
+            type: type,
+            Link: `/form/${user?.uid}/${formName}`,
+          });
+        db.collection("Users")
+          .doc(user?.uid)
+          .collection("Forms")
+          .doc(formName)
+          .set({
+            Title: formName,
+            Description: formDesc,
+          });
+        setquestion("");
+        setOpen(false);
       }
-    );
+    }
   };
 
   //FORM
@@ -449,7 +538,7 @@ function Form({ user }) {
                     value={100}
                     style={{ marginTop: "20px" }}
                   />{" "}
-                  {file?.File.name}
+                  <span style={{ fontSize: "10px" }}>{file?.File.name}</span>
                 </>
               )}
             </FormControl>
