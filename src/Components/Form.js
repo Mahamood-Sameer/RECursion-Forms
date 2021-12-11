@@ -20,7 +20,6 @@ import Select from "@mui/material/Select";
 // Database
 import { db } from "../Firebase/firebase";
 // Image Video Audio
-import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import Stack from "@mui/material/Stack";
 import ImageIcon from "@mui/icons-material/Image";
 import VideoFileIcon from "@mui/icons-material/VideoFile";
@@ -75,7 +74,6 @@ function Form({ user }) {
 
   const [file, setFile] = useState(null);
   const [progress, setProgress] = useState(null);
-  console.log(file);
 
   //   Add Question
 
@@ -311,12 +309,19 @@ function Form({ user }) {
         .doc(formName)
         .collection(formName)
         .onSnapshot((SnapShot) => {
-          setForm(SnapShot.docs.map((doc) => doc.data()));
+          setForm(SnapShot.docs.map((doc) =>{
+            return({
+              data:doc.data(),
+              docId:doc.id
+            })
+          }));
         });
     } else {
       console.log("Waiting");
     }
   }, [formName]);
+  
+  console.log(FORM)
 
   // Backdrop
   const [openBackdrop, setOpenBackdrop] = useState(false);
@@ -348,21 +353,23 @@ function Form({ user }) {
           </div>
           {/* Questions Display */}
           {FORM?.map((question) => {
-            if (question?.type === "Multiple Choice") {
+            if (question?.data.type === "Multiple Choice") {
               return (
                 <MultipleChoice
-                  question={question}
+                  question={question.data}
                   Disable={true}
                   Id={user?.uid}
+                  Editable={true} 
+                  quesId={question.docId}
                 />
               );
-            } else if (question?.type === "Checkboxes") {
+            } else if (question?.data.type === "Checkboxes") {
               return (
-                <CheckBox question={question} Disable={true} Id={user?.uid} />
+                <CheckBox question={question.data} Disable={true} Id={user?.uid} Editable={true} quesId={question.docId} />
               );
-            } else if (question?.type === "Paragraph") {
+            } else if (question?.data.type === "Paragraph") {
               return (
-                <Paragraph question={question} Disable={true} Id={user?.uid} />
+                <Paragraph question={question.data} Disable={true} Id={user?.uid} Editable={true} quesId={question.docId} />
               );
             }
           })}
@@ -423,7 +430,7 @@ function Form({ user }) {
       <br />
 
       {/* Dialouge Box */}
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={open} onClose={()=>handleClose}>
         <DialogTitle>Add a Question</DialogTitle>
         <DialogContent>
           {/* Text field */}
@@ -449,7 +456,7 @@ function Form({ user }) {
                 id="demo-simple-select"
                 value={type}
                 label="Type"
-                onChange={handleChange}
+                onChange={()=>handleChange}
               >
                 <MenuItem
                   value="Multiple Choice"
