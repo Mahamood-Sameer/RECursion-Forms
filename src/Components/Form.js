@@ -81,7 +81,7 @@ function Form({ user }) {
     if (file) {
       if ((file.File.size < 10, 485, 760)) {
         const fileref = storage
-          .ref(`files/${user?.email}_${file?.File.name}`)
+          .ref(`files/${user?.email}_${file?.File.name}_${formName}`)
           .put(file.File);
         fileref.on(
           "state_changed",
@@ -105,7 +105,7 @@ function Form({ user }) {
           () => {
             storage
               .ref("files")
-              .child(`${user?.email}_${file?.File.name}`)
+              .child(`${user?.email}_${file?.File.name}_${formName}`)
               .getDownloadURL()
               .then((url) => {
                 if (type === "Multiple Choice") {

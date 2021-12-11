@@ -52,7 +52,7 @@ function Paragraph({
     setOpenDialouge(false);
     if (ModifiedFile) {
       const fileref = storage
-        .ref(`files/${user?.email}_${ModifiedFile?.File.name}`)
+        .ref(`files/${user?.email}_${ModifiedFile?.File.name}_${formName}`)
         .put(ModifiedFile.File);
       fileref.on(
         "state_changed",
@@ -74,7 +74,7 @@ function Paragraph({
         () => {
           storage
             .ref("files")
-            .child(`${user?.email}_${ModifiedFile?.File.name}`)
+            .child(`${user?.email}_${ModifiedFile?.File.name}_${formName}`)
             .getDownloadURL()
             .then((url) => {
               db.collection("Users")

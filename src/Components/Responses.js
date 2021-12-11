@@ -9,16 +9,16 @@ import { IconButton, Tooltip } from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import { Button } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+// Pagination
+import Typography from "@mui/material/Typography";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 
 function Responses() {
   let { Id, name } = useParams();
 
   // Snackbar
   const [open, setOpen] = React.useState(false);
-
-  const handleClick = () => {
-    setOpen(true);
-  };
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -30,9 +30,6 @@ function Responses() {
 
   const action = (
     <React.Fragment>
-      <Button color="secondary" size="small" onClick={handleClose}>
-        UNDO
-      </Button>
       <IconButton
         size="small"
         aria-label="close"
@@ -56,6 +53,12 @@ function Responses() {
       });
   }, []);
 
+  // Pagination variables
+  const [page, setPage] = React.useState(1);
+  const handleChange = (event, value) => {
+    setPage(value);
+  };
+
   return (
     <>
       <div className="responses__section">
@@ -69,7 +72,7 @@ function Responses() {
                 onClick={() => {
                   const link = window.location.host;
                   navigator.clipboard.writeText(`${link}/form/${Id}/${name}`);
-                  setOpen(true)
+                  setOpen(true);
                 }}
               >
                 <ContentPasteIcon className="clipboardCopy" />
@@ -86,15 +89,40 @@ function Responses() {
                 These are the names of the people who had submitted the form
               </h3>
               <br />
-              {responses?.map((response) => (
-                <Link
-                  to={`/${Id}/${name}/${response.ResponseId}/${response.ResponseName}`}
-                  className="responsed_people"
-                >
-                  <p>{response.ResponseName}</p>
-                  <ArrowForwardIcon />
-                </Link>
-              ))}
+              {responses?.map((response, index) => {
+                if (page === 1) {
+                  if (index >= 0 && index <= 4) {
+                    return (
+                      <Link
+                        to={`/${Id}/${name}/${response.ResponseId}/${response.ResponseName}`}
+                        className="responsed_people"
+                      >
+                        <p>{response.ResponseName}</p>
+                        <ArrowForwardIcon />
+                      </Link>
+                    );
+                  }
+                } else if (page > 1) {
+                  if (index >= (page - 1) * 5 && index <= page * 5 - 1) {
+                    return (
+                      <Link
+                        to={`/${Id}/${name}/${response.ResponseId}/${response.ResponseName}`}
+                        className="responsed_people"
+                      >
+                        <p>{response.ResponseName}</p>
+                        <ArrowForwardIcon />
+                      </Link>
+                    );
+                  }
+                }
+              })}
+              <Stack spacing={2} style={{ margin: "10px auto" }}>
+                <Pagination
+                  count={Math.ceil(responses?.length / 5)}
+                  page={page}
+                  onChange={handleChange}
+                />
+              </Stack>
             </>
           ) : (
             <>
