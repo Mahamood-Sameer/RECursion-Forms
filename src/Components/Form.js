@@ -381,7 +381,7 @@ function Form({ user }) {
                   Add a Question
                 </Button>
                 <Link
-                  to={`/form/${user?.uid}/${formName}`}
+                  to={`/${user?.uid}/myforms/${formName}`}
                   className="PreviewLink"
                 >
                   Confirm
