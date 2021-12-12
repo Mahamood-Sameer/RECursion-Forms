@@ -361,15 +361,16 @@ function Form({ user }) {
                   Id={user?.uid}
                   Editable={true} 
                   quesId={question.docId}
+                  owner={user}
                 />
               );
             } else if (question?.data.type === "Checkboxes") {
               return (
-                <CheckBox question={question.data} Disable={true} Id={user?.uid} Editable={true} quesId={question.docId} />
+                <CheckBox question={question.data} Disable={true} Id={user?.uid} Editable={true} quesId={question.docId} owner={user} />
               );
             } else if (question?.data.type === "Paragraph") {
               return (
-                <Paragraph question={question.data} Disable={true} Id={user?.uid} Editable={true} quesId={question.docId} />
+                <Paragraph question={question.data} Disable={true} Id={user?.uid} Editable={true} quesId={question.docId} owner={user} />
               );
             }
           })}

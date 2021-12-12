@@ -30,6 +30,7 @@ function Paragraph({
   ChoosenAnswer,
   Editable,
   quesId,
+  owner
 }) {
   const [answer, setAnswer] = useState("");
 
@@ -52,7 +53,7 @@ function Paragraph({
     setOpenDialouge(false);
     if (ModifiedFile) {
       const fileref = storage
-        .ref(`files/${user?.email}_${ModifiedFile?.File.name}_${formName}`)
+        .ref(`files/${owner?.email}_${ModifiedFile?.File.name}_${question.Title}`)
         .put(ModifiedFile.File);
       fileref.on(
         "state_changed",
@@ -74,7 +75,7 @@ function Paragraph({
         () => {
           storage
             .ref("files")
-            .child(`${user?.email}_${ModifiedFile?.File.name}_${formName}`)
+            .child(`${owner?.email}_${ModifiedFile?.File.name}_${question.Title}`)
             .getDownloadURL()
             .then((url) => {
               db.collection("Users")
@@ -121,7 +122,7 @@ function Paragraph({
         db.collection("Response")
           .doc(Id)
           .collection(formName)
-          .doc(user.user.uid)
+          .doc(user.uid)
           .collection(formName)
           .doc(question.Question)
           .set({
@@ -135,7 +136,7 @@ function Paragraph({
         db.collection("Response")
           .doc(Id)
           .collection(formName)
-          .doc(user.user.uid)
+          .doc(user.uid)
           .collection(formName)
           .doc(question.Question)
           .set({
@@ -148,10 +149,10 @@ function Paragraph({
       db.collection("Response")
         .doc(Id)
         .collection(formName)
-        .doc(user.user.uid)
+        .doc(user.uid)
         .set({
-          ResponseName: user?.user.displayName,
-          ResponseId: user?.user.uid,
+          ResponseName: user?.displayName,
+          ResponseId: user?.uid,
         });
     }
   }, [answer]);

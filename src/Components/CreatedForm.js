@@ -35,8 +35,8 @@ function CreatedForm() {
     auth
       .signInWithPopup(provider)
       .then((result) => {
-        setUser(result);
-        console.log(result);
+        setUser(result.user);
+        console.log(result.user);
       })
       .catch((err) => {
         alert(err.message);
@@ -49,7 +49,7 @@ function CreatedForm() {
       {user && Notsubmit ? (
         <div className="createdForm">
           <div className="createdForm__header">
-            <Avatar src={user?.user.photoURL} />
+            <Avatar src={user?.photoURL} />
             {questions ? (
               <>
                 <h1 className="createdForm_title">{questions[0]?.Title}</h1>

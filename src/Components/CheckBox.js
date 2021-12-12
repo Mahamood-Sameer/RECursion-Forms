@@ -34,6 +34,7 @@ function CheckBox({
   ChoosenAnswer,
   Editable,
   quesId,
+  owner
 }) {
   const [Answer, setAnswer] = useState([]);
   const DeleteQuestion = () => {
@@ -51,7 +52,7 @@ function CheckBox({
         db.collection("Response")
           .doc(Id)
           .collection(formName)
-          .doc(user.user.uid)
+          .doc(user.uid)
           .collection(formName)
           .doc(question.Question)
           .set({
@@ -62,8 +63,8 @@ function CheckBox({
             OptionB: question?.OptionB,
             OptionC: question?.OptionC,
             OptionD: question?.OptionD,
-            ResponseName: user?.user.displayName,
-            ResponseId: user?.user.uid,
+            ResponseName: user?.displayName,
+            ResponseId: user?.uid,
             FileType: question.FileType,
             FileURL: question.FileURL,
           });
@@ -71,7 +72,7 @@ function CheckBox({
         db.collection("Response")
           .doc(Id)
           .collection(formName)
-          .doc(user.user.uid)
+          .doc(user.uid)
           .collection(formName)
           .doc(question.Question)
           .set({
@@ -82,18 +83,18 @@ function CheckBox({
             OptionB: question?.OptionB,
             OptionC: question?.OptionC,
             OptionD: question?.OptionD,
-            ResponseName: user?.user.displayName,
-            ResponseId: user?.user.uid,
+            ResponseName: user?.displayName,
+            ResponseId: user?.uid,
           });
       }
 
       db.collection("Response")
         .doc(Id)
         .collection(formName)
-        .doc(user.user.uid)
+        .doc(user.uid)
         .set({
-          ResponseName: user?.user.displayName,
-          ResponseId: user?.user.uid,
+          ResponseName: user?.displayName,
+          ResponseId: user?.uid,
         });
     }
   }, [Answer]);
@@ -111,7 +112,7 @@ function CheckBox({
           db.collection("Response")
             .doc(Id)
             .collection(formName)
-            .doc(user.user.uid)
+            .doc(user.uid)
             .collection(formName)
             .doc(question.Question)
             .set({
@@ -124,14 +125,14 @@ function CheckBox({
               OptionD: question?.OptionD,
               FileType: question.FileType,
               FileURL: question.FileURL,
-              ResponseName: user?.user.displayName,
-              ResponseId: user?.user.uid,
+              ResponseName: user?.displayName,
+              ResponseId: user?.uid,
             });
         } else {
           db.collection("Response")
             .doc(Id)
             .collection(formName)
-            .doc(user.user.uid)
+            .doc(user.uid)
             .collection(formName)
             .doc(question.Question)
             .set({
@@ -142,8 +143,8 @@ function CheckBox({
               OptionB: question?.OptionB,
               OptionC: question?.OptionC,
               OptionD: question?.OptionD,
-              ResponseName: user?.user.displayName,
-              ResponseId: user?.user.uid,
+              ResponseName: user?.displayName,
+              ResponseId: user?.uid,
             });
         }
 
@@ -152,8 +153,8 @@ function CheckBox({
           .collection(formName)
           .doc(user.user.uid)
           .set({
-            ResponseName: user?.user.displayName,
-            ResponseId: user?.user.uid,
+            ResponseName: user?.displayName,
+            ResponseId: user?.uid,
           });
       }
     }
@@ -182,10 +183,9 @@ function CheckBox({
 
   const Modify = () => {
     setOpenDialouge(false);
-    setOpenDialouge(false);
     if (ModifiedFile) {
       const fileref = storage
-        .ref(`files/${user?.email}_${ModifiedFile?.File.name}_${formName}`)
+        .ref(`files/${owner?.email}_${ModifiedFile?.File.name}_${question.Title}`)
         .put(ModifiedFile.File);
       fileref.on(
         "state_changed",
@@ -207,7 +207,7 @@ function CheckBox({
         () => {
           storage
             .ref("files")
-            .child(`${user?.email}_${ModifiedFile?.File.name}_${formName}`)
+            .child(`${owner?.email}_${ModifiedFile?.File.name}_${question.Title}`)
             .getDownloadURL()
             .then((url) => {
               db.collection("Users")
