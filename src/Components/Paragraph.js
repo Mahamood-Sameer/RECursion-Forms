@@ -16,6 +16,9 @@ import ImageIcon from "@mui/icons-material/Image";
 import VideoFileIcon from "@mui/icons-material/VideoFile";
 import AudioFileIcon from "@mui/icons-material/AudioFile";
 import { styled } from "@mui/material/styles";
+import { FormControl } from "@mui/material";
+import { InputLabel } from "@mui/material";
+import { Input } from "@mui/material";
 // Backdrop
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -30,7 +33,7 @@ function Paragraph({
   ChoosenAnswer,
   Editable,
   quesId,
-  owner
+  owner,
 }) {
   const [answer, setAnswer] = useState("");
 
@@ -53,7 +56,9 @@ function Paragraph({
     setOpenDialouge(false);
     if (ModifiedFile) {
       const fileref = storage
-        .ref(`files/${owner?.email}_${ModifiedFile?.File.name}_${question.Title}`)
+        .ref(
+          `files/${owner?.email}_${ModifiedFile?.File.name}_${question.Title}`
+        )
         .put(ModifiedFile.File);
       fileref.on(
         "state_changed",
@@ -75,7 +80,9 @@ function Paragraph({
         () => {
           storage
             .ref("files")
-            .child(`${owner?.email}_${ModifiedFile?.File.name}_${question.Title}`)
+            .child(
+              `${owner?.email}_${ModifiedFile?.File.name}_${question.Title}`
+            )
             .getDownloadURL()
             .then((url) => {
               db.collection("Users")
@@ -104,14 +111,14 @@ function Paragraph({
     }
 
     db.collection("Users")
-        .doc(Id)
-        .collection("Forms")
-        .doc(question.Title)
-        .collection(question.Title)
-        .doc(quesId)
-        .update({
-          Question: Modifiedquestion,
-        });
+      .doc(Id)
+      .collection("Forms")
+      .doc(question.Title)
+      .collection(question.Title)
+      .doc(quesId)
+      .update({
+        Question: Modifiedquestion,
+      });
 
     setModifiedFile(null);
   };
@@ -146,14 +153,10 @@ function Paragraph({
           });
       }
 
-      db.collection("Response")
-        .doc(Id)
-        .collection(formName)
-        .doc(user.uid)
-        .set({
-          ResponseName: user?.displayName,
-          ResponseId: user?.uid,
-        });
+      db.collection("Response").doc(Id).collection(formName).doc(user.uid).set({
+        ResponseName: user?.displayName,
+        ResponseId: user?.uid,
+      });
     }
   }, [answer]);
 
@@ -228,15 +231,16 @@ function Paragraph({
             )}
           </>
         )}
-        <input
-          type="text"
-          className="paragraph"
-          placeholder="Long-Answer text"
+        <TextField
+          id="standard-textarea"
+          label="Long-Answer text"
+          multiline
+          variant="standard"
           value={answer}
-          onChange={(e) => {
-            setAnswer(e.target.value);
-          }}
-          disabled={Disable}
+            onChange={(e) => {
+              setAnswer(e.target.value);
+            }}
+            disabled={Disable}
         />
         {ChoosenAnswer ? (
           <>
@@ -330,11 +334,13 @@ function Paragraph({
           ) : (
             <>
               <LinearProgress
-                    variant="determinate"
-                    value={100}
-                    style={{ marginTop: "20px" }}
-                  />{" "}
-                  <span style={{ fontSize: "10px" }}>{ModifiedFile?.File.name}</span>
+                variant="determinate"
+                value={100}
+                style={{ marginTop: "20px" }}
+              />{" "}
+              <span style={{ fontSize: "10px" }}>
+                {ModifiedFile?.File.name}
+              </span>
             </>
           )}
         </DialogContent>
