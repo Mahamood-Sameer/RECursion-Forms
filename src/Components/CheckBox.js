@@ -125,8 +125,7 @@ function CheckBox({
               OptionD: question?.OptionD,
               FileType: question.FileType,
               FileURL: question.FileURL,
-              ResponseName: user?.displayName,
-              ResponseId: user?.uid,
+              Required:question.Required
             });
         } else {
           db.collection("Response")
@@ -143,8 +142,7 @@ function CheckBox({
               OptionB: question?.OptionB,
               OptionC: question?.OptionC,
               OptionD: question?.OptionD,
-              ResponseName: user?.displayName,
-              ResponseId: user?.uid,
+              Required:question.Required
             });
         }
 
@@ -278,7 +276,9 @@ function CheckBox({
           <></>
         )}
         <FormControl component="fieldset">
-          <strong className="question">{question?.Question}</strong>
+          <strong className="question">{question?.Question}{
+          question?.Required ? <span style={{color:"red",marginLeft:"3px"}}> *</span> : <></>
+        }</strong>
           {question?.FileType == "Image" ? (
             <>
               <img

@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, Switch } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import "./Form.css";
 import MultipleChoice from "./MultipleChoice";
@@ -72,6 +72,9 @@ function Form({ user }) {
     display: "none",
   });
 
+  // Required switch
+  const [required , setRequired] = useState(null)
+
   const [file, setFile] = useState(null);
   const [progress, setProgress] = useState(null);
 
@@ -126,6 +129,7 @@ function Form({ user }) {
                       Link: `/form/${user?.uid}/${formName}`,
                       FileType: file.type,
                       FileURL: url,
+                      Required:required
                     });
                   db.collection("Users")
                     .doc(user?.uid)
@@ -159,6 +163,7 @@ function Form({ user }) {
                       Link: `/form/${user?.uid}/${formName}`,
                       FileType: file.type,
                       FileURL: url,
+                      Required:required
                     });
                   db.collection("Users")
                     .doc(user?.uid)
@@ -188,6 +193,7 @@ function Form({ user }) {
                       Link: `/form/${user?.uid}/${formName}`,
                       FileType: file.type,
                       FileURL: url,
+                      Required:required
                     });
                   db.collection("Users")
                     .doc(user?.uid)
@@ -224,6 +230,7 @@ function Form({ user }) {
             OptionC: optC,
             OptionD: optD,
             Link: `/form/${user?.uid}/${formName}`,
+            Required:required
           });
         db.collection("Users")
           .doc(user?.uid)
@@ -255,6 +262,7 @@ function Form({ user }) {
             OptionC: CheckoptC,
             OptionD: CheckoptD,
             Link: `/form/${user?.uid}/${formName}`,
+            Required:required
           });
         db.collection("Users")
           .doc(user?.uid)
@@ -282,6 +290,7 @@ function Form({ user }) {
             Question: question,
             type: type,
             Link: `/form/${user?.uid}/${formName}`,
+            Required:required
           });
         db.collection("Users")
           .doc(user?.uid)
@@ -295,6 +304,7 @@ function Form({ user }) {
         setOpen(false);
       }
     }
+    setRequired(null)
   };
 
   //FORM
@@ -657,6 +667,17 @@ function Form({ user }) {
           )}
         </DialogContent>
         <DialogActions>
+        <span style={{color:"red"}}>Required </span>: <Switch onChange={()=>{
+          if(required===null){
+            setRequired(true)
+          }else{
+            if(required===true){
+              setRequired(false)
+            }else{
+              setRequired(true)
+            }
+          }
+        }} />
           <Button onClick={Add_Question}>Ok</Button>
           <Button onClick={handleClose}>Cancel</Button>
         </DialogActions>

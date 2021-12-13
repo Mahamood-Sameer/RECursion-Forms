@@ -138,6 +138,7 @@ function Paragraph({
             Type: question.type,
             FileType: question.FileType,
             FileURL: question.FileURL,
+            Required:question.Required
           });
       } else {
         db.collection("Response")
@@ -150,6 +151,7 @@ function Paragraph({
             Question: question.Question,
             Answer: answer,
             Type: question.type,
+            Required:question.Required
           });
       }
 
@@ -200,7 +202,14 @@ function Paragraph({
           <></>
         )}
 
-        <strong className="question">{question?.Question}</strong>
+        <strong className="question">
+          {question?.Question}
+          {question?.Required ? (
+            <span style={{ color: "red", marginLeft: "3px" }}>*</span>
+          ) : (
+            <></>
+          )}
+        </strong>
         {question?.FileType == "Image" ? (
           <>
             <img
@@ -237,10 +246,10 @@ function Paragraph({
           multiline
           variant="standard"
           value={answer}
-            onChange={(e) => {
-              setAnswer(e.target.value);
-            }}
-            disabled={Disable}
+          onChange={(e) => {
+            setAnswer(e.target.value);
+          }}
+          disabled={Disable}
         />
         {ChoosenAnswer ? (
           <>

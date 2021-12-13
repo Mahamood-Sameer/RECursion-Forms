@@ -48,6 +48,7 @@ function CreatedForm() {
     <>
       {user && Notsubmit ? (
         <div className="createdForm">
+          <p style={{textAlign:"right"}}><span style={{"color":"red",marginRight:"3px"}}>*</span> Required</p>
           <div className="createdForm__header">
             <Avatar src={user?.photoURL} />
             {questions ? (
