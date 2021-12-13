@@ -79,7 +79,7 @@ function Form({ user }) {
 
   const Add_Question = () => {
     if (file) {
-      if ((file.File.size < 10, 485, 760)) {
+      if ((file.File.size < 10485760)) {
         const fileref = storage
           .ref(`files/${user?.email}_${file?.File.name}_${formName}`)
           .put(file.File);
